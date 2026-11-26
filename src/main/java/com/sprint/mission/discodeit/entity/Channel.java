@@ -55,8 +55,9 @@ public class Channel {
     @Override
     public String toString() {
         return "Channel{" +
-                "channelType=" + channelType +
-                ", channelName=" + channelName +
-                ", channelDesc=" + channelDesc + '}';
+                "id=" + id +
+                ", channelType=" + channelType +
+                ", channelName='" + channelName +
+                "', channelDesc='" + channelDesc + "'}";
     }
 }

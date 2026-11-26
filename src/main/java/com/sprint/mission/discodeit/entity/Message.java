@@ -53,6 +53,10 @@ public class Message {
     @Override
     public String toString() {
         return "Message{" +
-                "content='" + content + '}';
+                "id=" + id +
+                ", content='" + content +
+                "', channelId=" + channelId +
+                ", authorId=" + authorId +
+                '}';
     }
 }

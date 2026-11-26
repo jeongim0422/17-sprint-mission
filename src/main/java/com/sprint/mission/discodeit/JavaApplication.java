@@ -13,16 +13,21 @@ public class JavaApplication {
         userService.create("유저b", "fdfs34@sss.com", "bbbbb");
         userService.create("유저c", "hhhfgb@xcs.net", "ccccc");
 
-        // User 2-1. 조회
-        System.out.println(userService.find(user.getId()));
-        // User 2-2. 전체 조회
-        System.out.println("전체 조회: " + userService.findAll());
+        // User 2. 조회
+        System.out.println("단건 조회:  " + userService.find(user.getId()));
+        System.out.println("다건 조회: " + userService.findAll().size() + "명");
 
         //User 3. 수정
         userService.update(user.getId(), "유저1", "qwer12@dd.net", "11111");
-        System.out.println("수정 후 전체 조회: " + userService.findAll());
+        System.out.println("수정 후: " + userService.find(user.getId()));
+
         // User 4. 삭제
         userService.delete(user.getId());
-        System.out.println("삭제 후 전체 조회: " + userService.findAll());
+        System.out.println("삭제 후 : " + userService.findAll().size() + "명");
+        try {
+            userService.find(user.getId());
+        } catch (IllegalArgumentException e) {
+            System.out.println("삭제 확인: " + e.getMessage());
+        }
     }
 }
