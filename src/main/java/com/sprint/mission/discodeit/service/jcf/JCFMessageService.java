@@ -8,14 +8,27 @@ import java.util.*;
 public class JCFMessageService implements MessageService {
 
     final Map<UUID, Message> data;
+    JCFUserService userService;
+    JCFChannelService channelService;
 
-    public JCFMessageService(){
+    public JCFMessageService(JCFUserService userService, JCFChannelService channelService){
         data = new HashMap<>();
+        this.userService = userService;
+        this.channelService = channelService;
     }
 
+
     @Override
-    public Message create(String content, UUID channelId, UUID userId) {
-        Message message = new Message(content, channelId, userId);
+    public Message create(String content, UUID channelId, UUID authorId) {
+        try{
+            userService.find(authorId);
+            channelService.find(channelId);
+        } catch (IllegalArgumentException e){
+            System.out.println("사용자를 찾을 수 없습니다." + e.getMessage());
+            return null;
+        }
+
+        Message message = new Message(content, channelId, authorId);
         data.put(message.getId(), message);
         return message;
     }

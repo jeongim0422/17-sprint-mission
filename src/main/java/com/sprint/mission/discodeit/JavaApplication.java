@@ -10,12 +10,14 @@ import com.sprint.mission.discodeit.service.jcf.JCFChannelService;
 import com.sprint.mission.discodeit.service.jcf.JCFMessageService;
 import com.sprint.mission.discodeit.service.jcf.JCFUserService;
 
+import java.util.UUID;
+
 public class JavaApplication {
 
     public static void main(String[] args){
         JCFUserService userService = new JCFUserService();
         JCFChannelService channelService = new JCFChannelService();
-        JCFMessageService messageService = new JCFMessageService();
+        JCFMessageService messageService = new JCFMessageService(userService, channelService);
 
         // UserService 테스트
         // User 1. 등록
@@ -69,11 +71,11 @@ public class JavaApplication {
         // Message 1. 생성
         Message message = messageService.create("메시지 전달1", channel.getId(), user.getId());
         messageService.create("메시지 전달2", channel.getId(), user.getId());
-        messageService.create("메시지 전달3", channel2.getId(), user2.getId());
+
 
         // Message 2. 조회
         System.out.println("단건 조회: " + messageService.find(message.getId()));
-        System.out.println("다건 조회: " + messageService.findAll() + "개");
+        System.out.println("다건 조회: " + messageService.findAll().size() + "개");
 
         // Message 3. 수정
         messageService.update(message.getId(), "메시지: 채널에서 채널 2로 변경", channel2.getId());
@@ -87,6 +89,13 @@ public class JavaApplication {
         } catch (IllegalArgumentException e){
             System.out.println("삭제 확인: " + e.getMessage());
         }
+
+        // Message 검증 테스트
+        messageService.create("등록되지 않은 사용자: ", channel.getId(), UUID.randomUUID());
+        messageService.create("등록되지 않은 채널: ", UUID.randomUUID(), user.getId());
+        messageService.create("메시지 전달3", channel2.getId(), user2.getId());
+        System.out.println("검증 조회: " + messageService.findAll().size() + "개");
+
 
 
 
