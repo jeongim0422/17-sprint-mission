@@ -2,9 +2,12 @@ package com.sprint.mission.discodeit;
 
 import com.sprint.mission.discodeit.entity.Channel;
 import com.sprint.mission.discodeit.entity.ChannelType;
+import com.sprint.mission.discodeit.entity.Message;
 import com.sprint.mission.discodeit.entity.User;
 import com.sprint.mission.discodeit.service.ChannelService;
+import com.sprint.mission.discodeit.service.MessageService;
 import com.sprint.mission.discodeit.service.jcf.JCFChannelService;
+import com.sprint.mission.discodeit.service.jcf.JCFMessageService;
 import com.sprint.mission.discodeit.service.jcf.JCFUserService;
 
 public class JavaApplication {
@@ -12,52 +15,80 @@ public class JavaApplication {
     public static void main(String[] args){
         JCFUserService userService = new JCFUserService();
         JCFChannelService channelService = new JCFChannelService();
+        JCFMessageService messageService = new JCFMessageService();
 
-        /* UserService 테스트
+        // UserService 테스트
         // User 1. 등록
         User user = userService.create("유저a", "code12@sss.com", "aaaaa");
-        userService.create("유저b", "fdfs34@sss.com", "bbbbb");
-        userService.create("유저c", "hhhfgb@xcs.net", "ccccc");
+        User user2 = userService.create("유저b", "fdfs34@sss.com", "bbbbb");
+//        userService.create("유저c", "hhhfgb@xcs.net", "ccccc");
+//
+//        // User 2. 조회
+//        System.out.println("단건 조회:  " + userService.find(user.getId()));
+//        System.out.println("다건 조회: " + userService.findAll().size() + "명");
+//
+//        // User 3. 수정
+//        userService.update(user.getId(), "유저1", "qwer12@dd.net", "11111");
+//        System.out.println("수정 후: " + userService.find(user.getId()));
+//
+//        // User 4. 삭제
+//        userService.delete(user.getId());
+//        System.out.println("삭제 후 : " + userService.findAll().size() + "명");
+//        try {
+//            userService.find(user.getId());
+//        } catch (IllegalArgumentException e) {
+//            System.out.println("삭제 확인: " + e.getMessage());
+//        }
 
-        // User 2. 조회
-        System.out.println("단건 조회:  " + userService.find(user.getId()));
-        System.out.println("다건 조회: " + userService.findAll().size() + "명");
 
-        // User 3. 수정
-        userService.update(user.getId(), "유저1", "qwer12@dd.net", "11111");
-        System.out.println("수정 후: " + userService.find(user.getId()));
-
-        // User 4. 삭제
-        userService.delete(user.getId());
-        System.out.println("삭제 후 : " + userService.findAll().size() + "명");
-        try {
-            userService.find(user.getId());
-        } catch (IllegalArgumentException e) {
-            System.out.println("삭제 확인: " + e.getMessage());
-        }
-         */
-
+        // ChannelService 테스트
         // Channel 1. 등록
         Channel channel = channelService.create(ChannelType.PRIVATE, "비공개 채널1", "비공개 채널 예시1");
-        channelService.create(ChannelType.PRIVATE, "비공개 채널2", "비공개 채널 예시2");
-        channelService.create(ChannelType.PUBLIC, "공개 채널1", "공개 채널 예시1");
+        Channel channel2 = channelService.create(ChannelType.PRIVATE, "비공개 채널2", "비공개 채널 예시2");
+//        channelService.create(ChannelType.PUBLIC, "공개 채널1", "공개 채널 예시1");
+//
+//        // Channel 2. 조회
+//        System.out.println("단건 조회: " + channelService.find(channel.getId()));
+//        System.out.println("다건 조회: " + channelService.findAll().size() + "개");
+//
+//        // Channel 3. 수정
+//        channelService.update(channel.getId(), ChannelType.PUBLIC, "공개 채널a", "비공개 채널1 에서 공개 채널a로 수정됨");
+//        System.out.println("수정 후: " + channelService.find(channel.getId()));
+//
+//        // Channel 4. 삭제
+//        channelService.delete(channel.getId());
+//        System.out.println("삭제 후: " + channelService.findAll().size() + "개");
+//        try{
+//            channelService.find(channel.getId());
+//        } catch (IllegalArgumentException e){
+//            System.out.println("삭제 확인: " + e.getMessage());
+//        }
 
-        // Channel 2. 조회
-        System.out.println("단건 조회: " + channelService.find(channel.getId()));
-        System.out.println("다건 조회: " + channelService.findAll().size() + "개");
+        // MessageService 테스트
 
-        // Channel 3. 수정
-        channelService.update(channel.getId(), ChannelType.PUBLIC, "공개 채널a", "비공개 채널1 에서 공개 채널a로 수정됨");
-        System.out.println("수정 후: " + channelService.find(channel.getId()));
+        // Message 1. 생성
+        Message message = messageService.create("메시지 전달1", channel.getId(), user.getId());
+        messageService.create("메시지 전달2", channel.getId(), user.getId());
+        messageService.create("메시지 전달3", channel2.getId(), user2.getId());
 
-        // Channel 4. 삭제
-        channelService.delete(channel.getId());
-        System.out.println("삭제 후: " + channelService.findAll().size() + "개");
+        // Message 2. 조회
+        System.out.println("단건 조회: " + messageService.find(message.getId()));
+        System.out.println("다건 조회: " + messageService.findAll() + "개");
+
+        // Message 3. 수정
+        messageService.update(message.getId(), "메시지: 채널에서 채널 2로 변경", channel2.getId());
+        System.out.println("수정 후: " + messageService.find(message.getId()));
+
+        // Message 4. 삭제
+        messageService.delete(message.getId());
+        System.out.println("삭제 후 : " + messageService.findAll().size() + "개");
         try{
-            channelService.find(channel.getId());
+            messageService.find(message.getId());
         } catch (IllegalArgumentException e){
             System.out.println("삭제 확인: " + e.getMessage());
         }
-    }
 
+
+
+    }
 }

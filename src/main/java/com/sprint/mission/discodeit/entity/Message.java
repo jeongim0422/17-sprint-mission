@@ -10,7 +10,7 @@ public class Message {
 
     // Message 만의 필드
     String content;
-    final UUID channelId;
+    UUID channelId;
     final UUID authorId;
 
     public Message(String content, UUID channelId, UUID userId){
@@ -45,8 +45,9 @@ public class Message {
         return authorId;
     }
 
-    public void update(String content){
+    public void update(String content, UUID channelId){
         this.content = content;
+        this.channelId = channelId;
         updatedAt = System.currentTimeMillis();
     }
 

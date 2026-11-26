@@ -36,10 +36,10 @@ public class JCFMessageService implements MessageService {
     }
 
     @Override
-    public Message update(UUID messageId, String content) {
+    public Message update(UUID messageId, String content, UUID channelId) {
 
         Message message = find(messageId);
-        message.update(content);
+        message.update(content, channelId);
         return message;
     }
 

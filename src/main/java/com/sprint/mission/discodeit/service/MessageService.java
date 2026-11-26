@@ -10,6 +10,6 @@ public interface MessageService {
     Message create(String content, UUID channelId, UUID userId);
     Message find(UUID messageId);
     List<Message> findAll();
-    Message update(UUID messageId, String content);
+    Message update(UUID messageId, String content, UUID channelId);
     void delete(UUID messageId);
 }
