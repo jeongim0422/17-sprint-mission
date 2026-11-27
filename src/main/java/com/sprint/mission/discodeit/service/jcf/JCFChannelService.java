@@ -26,7 +26,7 @@ public class JCFChannelService implements ChannelService {
     public Channel find(UUID channelId) {
         Channel channel = data.get(channelId);
         if (channel == null){
-            throw new IllegalArgumentException("사용자를 찾을 수 없습니다. id=" + channelId);
+            throw new IllegalArgumentException("채널을 찾을 수 없습니다. id=" + channelId);
         }
         return channel;
     }
@@ -47,7 +47,7 @@ public class JCFChannelService implements ChannelService {
     @Override
     public void delete(UUID channelId) {
         if (!data.containsKey(channelId)){
-            throw new IllegalArgumentException("사용자를 찾을 수 없습니다. id=" + channelId);
+            throw new IllegalArgumentException("채널을 찾을 수 없습니다. id=" + channelId);
         }
         data.remove(channelId);
     }

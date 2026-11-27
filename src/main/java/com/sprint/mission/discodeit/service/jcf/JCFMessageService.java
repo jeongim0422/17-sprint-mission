@@ -24,7 +24,7 @@ public class JCFMessageService implements MessageService {
             userService.find(authorId);
             channelService.find(channelId);
         } catch (IllegalArgumentException e){
-            System.out.println("사용자를 찾을 수 없습니다." + e.getMessage());
+            System.out.println(e.getMessage());
             return null;
         }
 
@@ -37,7 +37,7 @@ public class JCFMessageService implements MessageService {
     public Message find(UUID messageId) {
         Message message = data.get(messageId);
         if (message == null){
-            throw new IllegalArgumentException("사용자를 찾을 수 없습니다. id=" + messageId);
+            throw new IllegalArgumentException("메시지를 찾을 수 없습니다. id=" + messageId);
         }
         return message;
     }
@@ -52,6 +52,7 @@ public class JCFMessageService implements MessageService {
     public Message update(UUID messageId, String content, UUID channelId) {
 
         Message message = find(messageId);
+        channelService.find(channelId);
         message.update(content, channelId);
         return message;
     }

@@ -22,7 +22,7 @@ public class JavaApplication {
 
         FileUserService fileUserService = new FileUserService();
 
-        /*
+
         // JCF Service
         // User 1. 등록
         User user = userService.create("유저a", "code12@sss.com", "aaaaa");
@@ -57,7 +57,7 @@ public class JavaApplication {
         } catch (IllegalArgumentException e) {
             System.out.println("삭제 확인: " + e.getMessage());
         }
-         */
+
 
         // ChannelService 테스트
         // Channel 1. 등록
@@ -95,7 +95,7 @@ public class JavaApplication {
             System.out.println("삭제 확인: " + e.getMessage());
         }
 
-        /*
+
         // MessageService 테스트
 
         // Message 1. 생성
@@ -104,12 +104,24 @@ public class JavaApplication {
 
 
         // Message 2. 조회
-        System.out.println("단건 조회: " + messageService.find(message.getId()));
+        try{
+            System.out.println("단건 조회: " + messageService.find(message.getId()));
+        }
+        catch (IllegalArgumentException e){
+            System.out.println("조회 실패: " + e.getMessage());
+        }
+
         System.out.println("다건 조회: " + messageService.findAll().size() + "개");
 
         // Message 3. 수정
-        messageService.update(message.getId(), "메시지: 채널에서 채널 2로 변경", channel2.getId());
-        System.out.println("수정 후: " + messageService.find(message.getId()));
+        try{
+            messageService.update(message.getId(), "메시지: 채널에서 채널 2로 변경", channel2.getId());
+            System.out.println("수정 후: " + messageService.find(message.getId()));
+        }
+        catch (IllegalArgumentException e){
+            System.out.println("수정 실패: " + e.getMessage());
+        }
+
 
         // Message 4. 삭제
         messageService.delete(message.getId());
@@ -125,7 +137,7 @@ public class JavaApplication {
         messageService.create("등록되지 않은 채널: ", UUID.randomUUID(), user.getId());
         messageService.create("메시지 전달3", channel2.getId(), user2.getId());
         System.out.println("검증 조회: " + messageService.findAll().size() + "개");
-        */
+
         /*
         // File User 1. 생성
         User fileUser = fileUserService.create("user1", "erer23@dede.com", "1234");
