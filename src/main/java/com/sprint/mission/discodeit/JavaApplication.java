@@ -22,8 +22,8 @@ public class JavaApplication {
 
         FileUserService fileUserService = new FileUserService();
 
+        /*
         // JCF Service
-        // UserService 테스트
         // User 1. 등록
         User user = userService.create("유저a", "code12@sss.com", "aaaaa");
         User user2 = userService.create("유저b", "fdfs34@sss.com", "bbbbb");
@@ -32,11 +32,11 @@ public class JavaApplication {
         // User 2. 조회
         try{
             System.out.println("단건 조회:  " + userService.find(user.getId()));
-            System.out.println("다건 조회: " + userService.findAll().size() + "명");
         }
         catch (IllegalArgumentException e){
             System.out.println("조회 실패 :" + e.getMessage());
         }
+        System.out.println("다건 조회: " + userService.findAll().size() + "명");
 
 
         // User 3. 수정
@@ -57,7 +57,8 @@ public class JavaApplication {
         } catch (IllegalArgumentException e) {
             System.out.println("삭제 확인: " + e.getMessage());
         }
-/*
+         */
+
         // ChannelService 테스트
         // Channel 1. 등록
         Channel channel = channelService.create(ChannelType.PRIVATE, "비공개 채널1", "비공개 채널 예시1");
@@ -65,12 +66,25 @@ public class JavaApplication {
         channelService.create(ChannelType.PUBLIC, "공개 채널1", "공개 채널 예시1");
 
         // Channel 2. 조회
-        System.out.println("단건 조회: " + channelService.find(channel.getId()));
+        try{
+            System.out.println("단건 조회: " + channelService.find(channel.getId()));
+        }
+        catch (IllegalArgumentException e)
+        {
+            System.out.println("존재하지 않는 채널입니다." + e.getMessage());
+        }
         System.out.println("다건 조회: " + channelService.findAll().size() + "개");
 
+
         // Channel 3. 수정
-        channelService.update(channel.getId(), ChannelType.PUBLIC, "공개 채널a", "비공개 채널1 에서 공개 채널a로 수정됨");
-        System.out.println("수정 후: " + channelService.find(channel.getId()));
+        try{
+            channelService.update(channel.getId(), ChannelType.PUBLIC, "공개 채널a", "비공개 채널1 에서 공개 채널a로 수정됨");
+            System.out.println("수정 후: " + channelService.find(channel.getId()));
+        }
+        catch (IllegalArgumentException e){
+            System.out.println("채널 수정 실패: " + e.getMessage());
+        }
+
 
         // Channel 4. 삭제
         channelService.delete(channel.getId());
@@ -80,7 +94,7 @@ public class JavaApplication {
         } catch (IllegalArgumentException e){
             System.out.println("삭제 확인: " + e.getMessage());
         }
-*/
+
         /*
         // MessageService 테스트
 
