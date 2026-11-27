@@ -23,7 +23,7 @@ public class JavaApplication {
 
         FileUserService fileUserService = new FileUserService();
 
-        /*
+
         // JCF Service
         // User 1. 등록
         User user = userService.create("유저a", "code12@sss.com", "aaaaa");
@@ -106,6 +106,9 @@ public class JavaApplication {
 
         // Message 2. 조회
         try{
+            if (message == null){
+                throw new IllegalArgumentException("조회할 메시지가 없습니다.");
+            }
             System.out.println("단건 조회: " + messageService.find(message.getId()));
         }
         catch (IllegalArgumentException e){
@@ -116,6 +119,9 @@ public class JavaApplication {
 
         // Message 3. 수정
         try{
+            if (message == null){
+                throw new IllegalArgumentException("수정할 메시지가 없습니다.");
+            }
             messageService.update(message.getId(), "메시지: 채널에서 채널 2로 변경", channel2.getId());
             System.out.println("수정 후: " + messageService.find(message.getId()));
         }
@@ -125,9 +131,13 @@ public class JavaApplication {
 
 
         // Message 4. 삭제
+        try{
+        if (message == null){
+            throw new IllegalArgumentException("삭제할 메시지가 없습니다.");
+        }
         messageService.delete(message.getId());
         System.out.println("삭제 후 : " + messageService.findAll().size() + "개");
-        try{
+
             messageService.find(message.getId());
         } catch (IllegalArgumentException e){
             System.out.println("삭제 확인: " + e.getMessage());
@@ -138,7 +148,7 @@ public class JavaApplication {
         messageService.create("등록되지 않은 채널: ", UUID.randomUUID(), user.getId());
         messageService.create("메시지 전달3", channel2.getId(), user2.getId());
         System.out.println("검증 조회: " + messageService.findAll().size() + "개");
-        */
+
 
         // File User 1. 생성
         User fileUser = fileUserService.create("user1", "erer23@dede.com", "1234");
@@ -151,9 +161,8 @@ public class JavaApplication {
             System.out.println("생성 실패: " + e.getMessage());
         }
         System.out.println("다건 조회: " + fileUserService.findAll().size() + "명");
-
-
         System.out.println("삭제 전: " + fileUserService.findAll());
+
         // File User 3. 삭제
         fileUserService.delete(fileUser.getId());
         try{
@@ -164,5 +173,14 @@ public class JavaApplication {
             System.out.println("삭제 확인: " + e.getMessage());
         }
         System.out.println("삭제 후: " + fileUserService.findAll().size() + "명");
+
+        // File User 4. 수정
+
+        fileUserService.update(fileUser.getId(), "수정한이름", "modify12@ss.com", "mmmmmmm");
+
+        try{
+        } catch (IllegalArgumentException e){
+            System.out.println("조회 실패: " + e.getMessage());
+        }
     }
 }

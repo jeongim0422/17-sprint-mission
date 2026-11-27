@@ -15,7 +15,7 @@ public class User implements Serializable {
     // User 만의 필드
     String userName;
     String email;
-    transient String password;
+    String password;
 
     public User(String userName, String email, String password){
         id = UUID.randomUUID();
@@ -41,6 +41,18 @@ public class User implements Serializable {
         return userName;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -63,6 +75,6 @@ public class User implements Serializable {
                 ", userName='" + userName +
                 "', email='" + email +
                 "', password='" + password +
-                '}';
+                "'}";
     }
 }

@@ -30,6 +30,10 @@ public class FileUserService implements UserService{
         }
     }
 
+    public Path createFilePath(UUID userId){
+        return directory.resolve(userId.toString().concat(".ser"));
+    }
+
     public static <T> void save(Path filePath, T data){
         try(
                 FileOutputStream fos = new FileOutputStream(filePath.toFile());
@@ -70,8 +74,7 @@ public class FileUserService implements UserService{
     @Override
     public User create(String userName, String email, String password) {
         User user = new User(userName, email, password);
-        Path filePath = directory.resolve(user.getId().toString().concat(".ser"));
-        save(filePath, user);
+        save(createFilePath(user.getId()), user);
 
         return user;
     }
@@ -79,7 +82,7 @@ public class FileUserService implements UserService{
     @Override
     public User find(UUID userId) {
 
-        Path filePath = directory.resolve(userId.toString().concat(".ser"));
+        Path filePath = createFilePath(userId);
         User user;
         try(
                 FileInputStream fis = new FileInputStream(filePath.toFile());
@@ -98,28 +101,33 @@ public class FileUserService implements UserService{
 
     @Override
     public List<User> findAll() {
-        //List<User> users = load(directory);
         return load(directory);
     }
 
     @Override
     public User update(UUID userId, String userName, String email, String password) {
-        return null;
+        try{
+            User user = find(userId);
+            user.setUserName(userName);
+            user.setEmail(email);
+            user.setPassword(password);
+
+            save(createFilePath(user.getId()), user);
+            return user;
+
+        } catch (IllegalArgumentException e){
+            System.out.println("수정 실패: 사용자 조회 실패");
+            return null;
+        }
     }
 
     @Override
     public void delete(UUID userId) {
-        Path filePath = directory.resolve(userId.toString().concat(".ser"));
         try{
-            Files.delete(filePath);
+            Files.delete(createFilePath(userId));
         }
         catch (IOException e){
             System.out.println("사용자를 찾을 수 없습니다." + e.getMessage());
         }
-
-
-
     }
-
-
 }
