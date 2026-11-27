@@ -13,6 +13,12 @@ import java.util.UUID;
 
 public class FileUserService implements UserService{
 
+    Path directory = Paths.get(System.getProperty("user.dir"), "data");
+
+    public FileUserService(){
+        init (directory);
+    }
+
     // 직렬화
     public static void init(Path directory){
         if (!Files.exists(directory)){
@@ -63,10 +69,6 @@ public class FileUserService implements UserService{
     // CRUD
     @Override
     public User create(String userName, String email, String password) {
-
-        Path directory = Paths.get(System.getProperty("user.dir"), "data");
-        init (directory);
-
         User user = new User(userName, email, password);
         Path filePath = directory.resolve(user.getId().toString().concat(".ser"));
         save(filePath, user);
@@ -76,9 +78,39 @@ public class FileUserService implements UserService{
 
     @Override
     public User find(UUID userId) {
-        return null;
+
+        Path filePath = directory.resolve(userId.toString().concat(".ser"));
+        User user;
+
+//        if (!Files.exists(filePath)) {
+//                return user;
+//        }
+        try{
+            FileInputStream fis = new FileInputStream(filePath.toFile());
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
+            user = (User) ois.readObject();
+
+        } catch(IOException | ClassNotFoundException e){
+                System.out.println("지정된 파일을 찾을 수 없습니다.");
+                user = null;
+        }
+        return user;
     }
 
+//        try {
+//            if (!Files.exists(filePath)) {
+//                throw new RuntimeException("파일이 존재하지 않습니다.");
+//
+//                FileInputStream fis = new FileInputStream(filePath.toFile());
+//                ObjectInputStream ois = new ObjectInputStream(fis);
+//
+//                return (User) ois.readObject();
+//
+//            } catch(IOException | ClassNotFoundException e){
+//                System.out.println("존재하지 않는 파일입니다.");
+//            }
+//        }
     @Override
     public List<User> findAll() {
         return List.of();
