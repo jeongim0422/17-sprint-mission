@@ -143,11 +143,14 @@ public class JavaApplication {
         User fileUser = fileUserService.create("user1", "erer23@dede.com", "1234");
         fileUserService.create("user2", "qqqq1111@dede.com", "0000");
 
-        // File User 2. 조회
+        // File User 2-1. 조회
         try{
             System.out.println("단건 조회: " + fileUserService.find(fileUser.getId()));
         } catch (IllegalArgumentException e){
             System.out.println("생성 실패: " + e.getMessage());
         }
+        // File User 2-2. 다건 조회
+        System.out.println("다건 조회: " + fileUserService.findAll().size() + "명");
+
     }
 }

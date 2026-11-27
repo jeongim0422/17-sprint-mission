@@ -96,22 +96,10 @@ public class FileUserService implements UserService{
         return user;
     }
 
-//        try {
-//            if (!Files.exists(filePath)) {
-//                throw new RuntimeException("파일이 존재하지 않습니다.");
-//
-//                FileInputStream fis = new FileInputStream(filePath.toFile());
-//                ObjectInputStream ois = new ObjectInputStream(fis);
-//
-//                return (User) ois.readObject();
-//
-//            } catch(IOException | ClassNotFoundException e){
-//                System.out.println("존재하지 않는 파일입니다.");
-//            }
-//        }
     @Override
     public List<User> findAll() {
-        return List.of();
+        //List<User> users = load(directory);
+        return load(directory);
     }
 
     @Override
