@@ -109,6 +109,15 @@ public class FileUserService implements UserService{
 
     @Override
     public void delete(UUID userId) {
+        Path filePath = directory.resolve(userId.toString().concat(".ser"));
+        try{
+            Files.delete(filePath);
+        }
+        catch (IOException e){
+            System.out.println("사용자를 찾을 수 없습니다." + e.getMessage());
+        }
+
+
 
     }
 

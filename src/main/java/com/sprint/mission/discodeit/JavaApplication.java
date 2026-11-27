@@ -11,6 +11,7 @@ import com.sprint.mission.discodeit.service.jcf.JCFChannelService;
 import com.sprint.mission.discodeit.service.jcf.JCFMessageService;
 import com.sprint.mission.discodeit.service.jcf.JCFUserService;
 
+import java.io.IOException;
 import java.util.UUID;
 
 public class JavaApplication {
@@ -143,14 +144,26 @@ public class JavaApplication {
         User fileUser = fileUserService.create("user1", "erer23@dede.com", "1234");
         fileUserService.create("user2", "qqqq1111@dede.com", "0000");
 
-        // File User 2-1. 조회
+        // File User 2. 조회
         try{
             System.out.println("단건 조회: " + fileUserService.find(fileUser.getId()));
         } catch (IllegalArgumentException e){
             System.out.println("생성 실패: " + e.getMessage());
         }
-        // File User 2-2. 다건 조회
         System.out.println("다건 조회: " + fileUserService.findAll().size() + "명");
 
+
+        System.out.println("삭제 전: " + fileUserService.findAll());
+        // File User 3. 삭제
+        fileUserService.delete(fileUser.getId());
+//        try{
+//            fileUserService.delete(fileUser.getId());
+//            System.out.println("삭제한 사용자: " + fileUserService.find(fileUser.getId()));
+//
+//        } catch (IllegalArgumentException e){
+//            System.out.println("삭제 확인: " + e.getMessage());
+//        }
+        System.out.println("삭제 후: " + fileUserService.findAll());
+        //System.out.println("다건 조회: " + fileUserService.findAll().size() + "명");
     }
 }
