@@ -156,14 +156,13 @@ public class JavaApplication {
         System.out.println("삭제 전: " + fileUserService.findAll());
         // File User 3. 삭제
         fileUserService.delete(fileUser.getId());
-//        try{
-//            fileUserService.delete(fileUser.getId());
-//            System.out.println("삭제한 사용자: " + fileUserService.find(fileUser.getId()));
-//
-//        } catch (IllegalArgumentException e){
-//            System.out.println("삭제 확인: " + e.getMessage());
-//        }
-        System.out.println("삭제 후: " + fileUserService.findAll());
-        //System.out.println("다건 조회: " + fileUserService.findAll().size() + "명");
+        try{
+            fileUserService.delete(fileUser.getId());
+            System.out.println("삭제한 사용자: " + fileUserService.find(fileUser.getId()));
+
+        } catch (IllegalArgumentException e){
+            System.out.println("삭제 확인: " + e.getMessage());
+        }
+        System.out.println("삭제 후: " + fileUserService.findAll().size() + "명");
     }
 }

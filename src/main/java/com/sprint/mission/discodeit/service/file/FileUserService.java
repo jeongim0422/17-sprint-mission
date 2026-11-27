@@ -81,13 +81,13 @@ public class FileUserService implements UserService{
 
         Path filePath = directory.resolve(userId.toString().concat(".ser"));
         User user;
-        try {
+        try(
+                FileInputStream fis = new FileInputStream(filePath.toFile());
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                ) {
             if (!Files.exists(filePath)) {
                 throw new IOException();
             }
-            FileInputStream fis = new FileInputStream(filePath.toFile());
-            ObjectInputStream ois = new ObjectInputStream(fis);
-
             user =  (User) ois.readObject();
 
         } catch (IOException | ClassNotFoundException e) {
