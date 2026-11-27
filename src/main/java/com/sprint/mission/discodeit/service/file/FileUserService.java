@@ -81,19 +81,17 @@ public class FileUserService implements UserService{
 
         Path filePath = directory.resolve(userId.toString().concat(".ser"));
         User user;
-
-//        if (!Files.exists(filePath)) {
-//                return user;
-//        }
-        try{
+        try {
+            if (!Files.exists(filePath)) {
+                throw new IOException();
+            }
             FileInputStream fis = new FileInputStream(filePath.toFile());
             ObjectInputStream ois = new ObjectInputStream(fis);
 
-            user = (User) ois.readObject();
+            user =  (User) ois.readObject();
 
-        } catch(IOException | ClassNotFoundException e){
-                System.out.println("지정된 파일을 찾을 수 없습니다.");
-                user = null;
+        } catch (IOException | ClassNotFoundException e) {
+            throw new IllegalArgumentException("파일을 찾을 수 없습니다." + e.getMessage());
         }
         return user;
     }

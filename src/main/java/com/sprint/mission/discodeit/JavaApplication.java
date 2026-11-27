@@ -22,7 +22,7 @@ public class JavaApplication {
 
         FileUserService fileUserService = new FileUserService();
 
-
+        /*
         // JCF Service
         // User 1. 등록
         User user = userService.create("유저a", "code12@sss.com", "aaaaa");
@@ -137,15 +137,17 @@ public class JavaApplication {
         messageService.create("등록되지 않은 채널: ", UUID.randomUUID(), user.getId());
         messageService.create("메시지 전달3", channel2.getId(), user2.getId());
         System.out.println("검증 조회: " + messageService.findAll().size() + "개");
+        */
 
-        /*
         // File User 1. 생성
         User fileUser = fileUserService.create("user1", "erer23@dede.com", "1234");
         fileUserService.create("user2", "qqqq1111@dede.com", "0000");
 
         // File User 2. 조회
-        //System.out.println("단건 조회: " + fileUserService.find(fileUser.getId()));
-        System.out.println("단건 조회:  " + userService.find(UUID.randomUUID()));
-        System.out.println("비생성 단건 조회: " + fileUserService.find(UUID.randomUUID()));*/
+        try{
+            System.out.println("단건 조회: " + fileUserService.find(fileUser.getId()));
+        } catch (IllegalArgumentException e){
+            System.out.println("생성 실패: " + e.getMessage());
+        }
     }
 }
