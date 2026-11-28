@@ -25,8 +25,12 @@ public class JCFUserService implements UserService {
     @Override
     public User find(UUID userId) {
         User user = data.get(userId);
-        if (user == null){
-            throw new IllegalArgumentException("사용자를 찾을 수 없습니다. id=" + userId);
+        try{
+            if (user == null){
+                throw new IllegalArgumentException();
+            }
+        } catch (IllegalArgumentException e) {
+           System.out.println("사용자 조회 실패: id=" + userId);
         }
         return user;
     }
@@ -39,15 +43,26 @@ public class JCFUserService implements UserService {
     @Override
     public User update(UUID userId, String userName, String email, String password) {
         User user = find(userId);
-        user.update(userName, email, password);
+        try{
+            if (user == null)
+                throw new IllegalArgumentException();
+            user.update(userName, email, password);
+        } catch (IllegalArgumentException e){
+            System.out.println("사용자 수정 실패: id=" + userId);
+        }
         return user;
     }
 
     @Override
     public void delete(UUID userId) {
         User user = data.get(userId);
-        if (!data.containsKey(userId)){
-            throw new IllegalArgumentException("사용자를 찾을 수 없습니다. id=" + userId);
+        try{
+            if (!data.containsKey(userId)){
+                throw new IllegalArgumentException();
+            }
+        }
+        catch (IllegalArgumentException e){
+            System.out.println("사용자 삭제 실패: id=" + userId);
         }
         data.remove(userId);
     }

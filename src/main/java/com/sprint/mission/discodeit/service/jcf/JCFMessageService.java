@@ -1,5 +1,6 @@
 package com.sprint.mission.discodeit.service.jcf;
 
+import com.sprint.mission.discodeit.entity.Channel;
 import com.sprint.mission.discodeit.entity.Message;
 import com.sprint.mission.discodeit.service.MessageService;
 
@@ -27,17 +28,21 @@ public class JCFMessageService implements MessageService {
             System.out.println(e.getMessage());
             return null;
         }
-
         Message message = new Message(content, channelId, authorId);
         data.put(message.getId(), message);
+
         return message;
     }
 
     @Override
     public Message find(UUID messageId) {
         Message message = data.get(messageId);
-        if (message == null){
-            throw new IllegalArgumentException("메시지를 찾을 수 없습니다. id=" + messageId);
+        try{
+            if (message == null){
+                throw new IllegalArgumentException();
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("메시지 조회 실패: id=" + messageId);
         }
         return message;
     }
@@ -50,18 +55,28 @@ public class JCFMessageService implements MessageService {
 
     @Override
     public Message update(UUID messageId, String content, UUID channelId) {
-
         Message message = find(messageId);
-        channelService.find(channelId);
-        message.update(content, channelId);
+        Channel channel = channelService.find(channelId);
+        try{
+            if (message == null || channel == null){
+                throw new IllegalArgumentException();
+            }
+            message.update(content, channelId);
+        } catch (IllegalArgumentException e){
+            System.out.println("메시지 수정 실패: id=" + messageId);
+        }
         return message;
     }
 
     @Override
     public void delete(UUID messageId) {
-        if (!data.containsKey(messageId)){
-            throw new IllegalArgumentException("사용자를 찾을 수 없습니다. id=" + messageId);
+        try{
+            if (!data.containsKey(messageId)){
+                throw new IllegalArgumentException();
+            }
+            data.remove(messageId);
+        } catch (IllegalArgumentException e){
+            System.out.println("메시지 삭제 실패: id=" + messageId);
         }
-        data.remove(messageId);
     }
 }

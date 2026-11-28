@@ -25,9 +25,14 @@ public class JCFChannelService implements ChannelService {
     @Override
     public Channel find(UUID channelId) {
         Channel channel = data.get(channelId);
-        if (channel == null){
-            throw new IllegalArgumentException("채널을 찾을 수 없습니다. id=" + channelId);
+        try{
+            if (channel == null){
+                throw new IllegalArgumentException();
+            }
+        } catch (IllegalArgumentException e){
+            System.out.println("채널 조회 실패: id=" + channelId);
         }
+
         return channel;
     }
 
@@ -37,18 +42,30 @@ public class JCFChannelService implements ChannelService {
     }
 
     @Override
-    public Channel update(UUID channerId, ChannelType channelType, String channelName, String channelDesc) {
-        Channel channel = find(channerId);
-        channel.update(channelType, channelName, channelDesc);
-
+    public Channel update(UUID channelId, ChannelType channelType, String channelName, String channelDesc) {
+        Channel channel = find(channelId);
+        try{
+            if (channel == null){
+                throw new IllegalArgumentException();
+            }
+            channel.update(channelType, channelName, channelDesc);
+        } catch (Exception e) {
+            System.out.println("채널 수정 실패: id=" + channelId);
+        }
         return channel;
     }
 
     @Override
     public void delete(UUID channelId) {
-        if (!data.containsKey(channelId)){
-            throw new IllegalArgumentException("채널을 찾을 수 없습니다. id=" + channelId);
+        try{
+            if (!data.containsKey(channelId)){
+                throw new IllegalArgumentException();
+            }
+            data.remove(channelId);
+        } catch (IllegalArgumentException e) {
+            System.out.println("채널 삭제 실패: id=" + channelId);
         }
-        data.remove(channelId);
+
+
     }
 }
